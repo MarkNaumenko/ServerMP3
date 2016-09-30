@@ -1,14 +1,16 @@
-var http = require("http");
-var fs = require("fs");
+var config = require('./config.json'),
+	http = require("http"),
+	fs = require("fs"),
+	port = config.port || 8888;
 
 new http.Server(function(req, res) {
 	if (req.url == "/mp3.html") {
 		var file = new fs.ReadStream("crash.mp3");
 		sendFile(file, res);
 	}
-}).listen(8888);
+}).listen(parseInt(port, 10));
 
-console.log("Server is running on port: 8888, Ctrl+C to stop");
+console.log("Server is running on port: " + port + ", Ctrl+C to stop");
 
 function sendFile(file, res) {
 	file.pipe(res);
